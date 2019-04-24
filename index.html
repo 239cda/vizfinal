@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Final Project</title>
+
+    <!--<script src="https://d3js.org/d3.v5.min.js"></script>-->
+    <script src="https://d3js.org/d3-queue.v3.min.js"></script>
+   <!-- <script src="http://d3js.org/topojson.v1.min.js"></script>-->
+    <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+    <script src="https://d3js.org/d3-ease.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-selection.v1.min.js"></script>
+    <script src="https://d3js.org/d3-timer.v1.min.js"></script>
+    <script src="https://d3js.org/d3-transition.v1.min.js"></script>
+
+    <script src="lib/d3.v2.min.js"></script>
+    <script src="lib/topojson.js"></script>
+    <script src="lib/cartogramCode.js"></script>
+    <script src="lib/legend.js"></script>
+
+    <link href="geoMap/css/d3.geomap.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="geoMap/js/d3.geomap.js"></script>
+    <script src="app/globalVar.js"></script>
+    <script src="app/scatterplot.js"></script>
+    <!--<script src="app/worldMap.js"></script>-->
+    <script src="app/cartogram.js"></script>
+    <script src="app/main.js"></script>
+
+</head>
+<body>
+
+<div id="mainFrame">
+    <div id="headerDiv">
+        <div id="titleDiv">
+            <h1 id="title">currentData</h1>
+        </div>
+        <div id="dropdownDiv">
+            <select id="dataDropDown" onchange="Cartogram.switchData()">
+                <option selected="selected" value = "healthSpending">Health Spending</option>
+                <option value = "bmi_female">Female BMI</option>
+                <option value = "bmi_male">Male BMI</option>
+                <option value = "foodConsumption">Calories Consumed</option>
+                <option value = "lifeExpectancy">Life Expectancy</option>
+                <option value = "sugarConsumption">Sugar Consumption</option>
+                <option value = "suicide">Suicide Rate</option>
+            </select>
+        </div>
+
+        <div id="buttonDiv">
+            <button id="click_to_run" onclick="Cartogram.update()">cartogram</button>
+<!--            <button id="resDefault" onclick="">Restore Default</button>
+            <button id="applyChanges" onclick="">Apply Changes</button>-->
+        </div>
+
+    </div>
+    <div id="sliderContainerDiv">
+        <div id="sliderDiv">
+            <input type="range" min=1980 max=2008 value=1980 class="slider" id="yearRange" onchange="Cartogram.switchData()">
+        </div>
+        <div id="sliderBtnDiv">
+            <button onclick="decrementYear()"><<</button>
+            <button onclick="incrementYear()">>></button>
+        </div>
+    </div>
+
+    <div id="mainDiv">
+        <div id="mapDiv">
+            <svg id="mapSVG"></svg>
+
+        </div>
+        <div id="rightDiv">
+            <div id="labelDiv">
+                <svg id="labelSVG"></svg>
+            </div>
+            <div id="scatterDiv"></div>
+        </div>
+    </div>
+    <div id="legendDiv">
+        <svg id="legendSVG"></svg>
+    </div>
+
+</div>
+
+<script>
+    var cartogramOn = false;
+
+
+    function incrementYear(){
+        var val = parseInt(document.getElementById("yearRange").value);
+        if(val < 2008) {
+            document.getElementById("yearRange").value = val + 1;
+            Cartogram.switchData();
+            scatterplot.switchData();
+        }
+    }
+    function decrementYear(){
+        var val = parseInt(document.getElementById("yearRange").value);
+        if(val > 1980) {
+            document.getElementById("yearRange").value = val - 1;
+            Cartogram.switchData();
+            scatterplot.switchData();
+        }
+    }
+    Cartogram.main();
+    scatterplot.main();
+
+
+</script>
+
+
+</body>
+</html>
